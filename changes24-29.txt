@@ -9,7 +9,7 @@ Changes from nauty 2.4 to nauty 2.5
   and available.  This allows parallel running of nauty and Traces
   in separate threads.
 
-* The makefile now creates static libraries like nauty.a in 
+* The makefile now creates static libraries like nauty.a in
   addition to object files like nauty.o.
 
 * Remove all uses of types permutation, nvector, np2vector, shortish.
@@ -47,7 +47,7 @@ Changes from nauty 2.4 to nauty 2.5
   densenauty() and sparsenauty() are now the recommended ways to
   call nauty from a program.  See the sample programs in the package.
 
-* Use quicksort in place of shell sort in many places.  This is 
+* Use quicksort in place of shell sort in many places.  This is
   implemented in the file sorttemplates.c that can be used in any
   applications.
 
@@ -86,7 +86,7 @@ Changes from nauty 2.4 to nauty 2.5
     M command is extended; now applies to i as well as x.
     Implement ANSI controls if requested.
     File names for > and < can be given in "..." to allow spaces.
- 
+
 * Updates to utilities:
      listg:  add -b (Bliss format), -G (GRAPE format) and
           -y/-Y (dotty format), -H (HCP format)
@@ -192,7 +192,7 @@ Other changes:
 * Extra argument macros SWDOUBLE, SWREALRANGE, SWSEQUENCE in gtools.h.
 * girth() in gutil1.c got the wrong answer for K2.  Thanks to
   Sean Irvine for reporting it.
-* gtools.c defines checkgline() to check if a graph input 
+* gtools.c defines checkgline() to check if a graph input
   line looks ok.
 * The procedures in gtnauty.c, used by labelg and other utilities,
   had an old limit of 2^22 (4 million+) vertices.  This limit is
@@ -469,7 +469,7 @@ Changes from nauty 2.7 to nauty 2.8
       Fixed output for n=1, diameter > 0.
   - genrang has an option -M# can be used in conjunction with
       -d (pseudo-random regular graphs). It runs a Markov chain
-      for #*n steps. The chain has a uniform distribution as 
+      for #*n steps. The chain has a uniform distribution as
       its limit and, although the precise rate of convergence
       is unknown, running it with a decent number of iterations
       will produce a more uniform distribution than -d alone.
@@ -601,11 +601,11 @@ Changes from nauty 2.7 to nauty 2.8
   a and b minimized over a,b such that there is no edge a->b. This is
   the same as the maximum number of internally-vertex-disjoint directed
   paths from a to b, minimized over distinct a,b. Thus, 1-connectivity
-  is equivalent to strong connectivity. 
+  is equivalent to strong connectivity.
   The older switch -c is still available with the old meaning: only valid
   for undirected graphs, and the value 2 means "2 or more".
 
-  (3) The functions -I and -J were replaced by -ii and -jj to make room 
+  (3) The functions -I and -J were replaced by -ii and -jj to make room
   for future features.
 
   (4) Some sort keys have boolean variants with parameters:
@@ -722,7 +722,7 @@ Changes from nauty 2.7 to nauty 2.8
 
 * New options for countg and pickg:
   --O : number of orbits on edges
-  --OO : number of orbits on directed edges 
+  --OO : number of orbits on directed edges
      (--O and --OO are the same for digraphs.)
   -tt : 2 for arc-transitive, 1 for edge-transitive, 0 for neither.
 
@@ -784,7 +784,7 @@ Changes from nauty 2.7 to nauty 2.8
   of the *.h files touch those variables.
 
 * Fixed bugs in pickg/countg for chromatic number (-G) and connectivity (-N).
-  These were related bugs in testg.c and not in the procedures in 
+  These were related bugs in testg.c and not in the procedures in
   nauchromatic.c and nauconnect.c.
 
 * pickg/countg --HH counts hexagons (6-cycles) in undirected graphs.
@@ -798,7 +798,7 @@ Changes from nauty 2.7 to nauty 2.8
 * The space efficiency of uniqg has improved to 48 bytes per isomorphism
   class, a bit more than 22 million per gigabyte. It got a little faster too.
 - uniqg -H was good in 2.8.8 but broken in 2.8.9. Hopefully it's good again.
-- uniqg -y writes a 256-bit hash of the input equivalence classes. 
+- uniqg -y writes a 256-bit hash of the input equivalence classes.
   It is independent of the word size and endianness, but depends on -S, -t
   and the parameters for colouring and invariants.
 - The SHA256 procedures have been migrated to a separate file nausha.c
@@ -854,7 +854,7 @@ Changes from nauty 2.7 to nauty 2.8
 * genspecialg has 29 new named graphs. Use genspecialg -Xhelp for a list.
 
 * delptg -A deletes all the vertices specified by -d and/or -v.
-  delptg -k# makes the #-core of the input graphs, formed by recursively 
+  delptg -k# makes the #-core of the input graphs, formed by recursively
     removing vertices of degree less than #.
   Loops are now supported by delptg and contribute 2 to the degree for
     undirected graphs.
@@ -923,3 +923,8 @@ Changes from nauty 2.7 to nauty 2.8
   documented in the source code cubhamg.c.
 
 -- Now 2.9.3
+
+Forked changes
+-------------
+
+* geng has a new switch -i to generate I5-free graphs.
