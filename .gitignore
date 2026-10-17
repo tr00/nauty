@@ -38,6 +38,7 @@
 /directg
 /distgraphg
 /dreadnaut
+/dreadtest*
 /dretodot
 /dretog
 /edgetransg
@@ -57,6 +58,8 @@
 /linegraphg
 /listg
 /multig
+/naucompare
+/nautest*
 /nbrhoodg
 /newedgeg
 /NRswitchg
@@ -73,3 +76,6 @@
 /uniqg
 /vcolg
 /watercluster2
+
+# test artifacts
+/runtest.*
