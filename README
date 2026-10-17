@@ -26,16 +26,39 @@ followed by
    make 
 to compile nauty and Traces for your system.
 
-If that succeeds without problem, you will have the
-program dreadnaut ready to run.
+Executables are written to bin/, for example bin/dreadnaut and bin/geng.
+The layout is:
+   src/    C sources, public headers, examples, and header templates
+   test/   test sources, input graphs, expected answers, and runner template
+   bin/    compiled command-line tools and test executables
+   build/  generated headers, object files, libraries, and test runner
+
+Keep both -Ibuild and -Isrc when compiling external programs against an
+uninstalled build; link with build/nauty.a (or the required word-size variant).
+For example:
+   cc -Ibuild -Isrc src/nautyex1.c build/nauty.a -o bin/nautyex1
+
+The supplied configure script needs no Autoconf installation. Building needs
+a C compiler, Unix shell, GNU make, and standard Unix utilities. Existing
+platform probes and Libtool support are retained,
+including 64-bit Linux, macOS and BSD, word-size variants, and TLS libraries.
+Use --enable-generic --disable-popcnt --disable-clz when building binaries
+without host-specific instruction optimizations.
+
+Out-of-tree builds are supported:
+   mkdir /tmp/nauty-build
+   cd /tmp/nauty-build
+   /path/to/nauty/configure
+   make
+The bin/ and build/ directories are then created in /tmp/nauty-build.
 
 There are some options that can be specified at the ./configure
 step; see the manual.
 
-If you don't have a shell or make, manually edit the files nauty.h,
-naututil.h and gtools.h as distributed.  The parts between the lines
-======= near the start are the main things to look at.  After this
-manual editing, you can use makefile.basic as a guide to compilation.
+The former makefile.basic is no longer used; configuration is required.
+Use make clean to remove compiled outputs while retaining configuration,
+or make distclean to remove generated configuration and build/ as well.
+make install and DESTDIR staging remain supported.
 
 Programs which use an older version of nauty need to be
 recompiled (** not just relinked **). Make sure they define
@@ -53,6 +76,8 @@ TESTING.
 After compiling nauty successfully, it is recommended that you run
 the included test programs.  The simplest way is
     make checks
+The runner can also be invoked as sh build/runalltests from any directory.
+Test temporary files stay in build/; fixtures in test/ are read-only.
 
 ------------------------------------------------------------
 

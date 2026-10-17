@@ -626,7 +626,7 @@ PACKAGE_STRING='nauty 2.9.3'
 PACKAGE_BUGREPORT='brendan.mckay@anu.edu.au'
 PACKAGE_URL=''
 
-ac_unique_file="nauty-h.in"
+ac_unique_file="src/nauty-h.in"
 # Factoring default headers for most tests.
 ac_includes_default="\
 #include <stddef.h>
@@ -6535,7 +6535,7 @@ fi
 if test $have_pipe -eq 1 && test $have_wait -eq 1 && test $have_fork -eq 1
 then :
   shortg=1
-     shortg_or_null=shortg
+     shortg_or_null=../bin/shortg
 else $as_nop
   shortg=0
      shortg_or_null=
@@ -15622,7 +15622,19 @@ fi
 
 
 
-ac_config_files="$ac_config_files makefile:makefile.in nauty.h:nauty-h.in naututil.h:naututil-h.in gtools.h:gtools-h.in nauty.pc:nauty-pc.in runalltests:runalltests.in"
+layout_testprogs=
+for prog in $testprogs; do
+  layout_testprogs="$layout_testprogs ../bin/$prog"
+done
+testprogs=$layout_testprogs
+layout_nautests=
+for prog in $nautests; do
+  layout_nautests="$layout_nautests ../bin/$prog"
+done
+nautests=$layout_nautests
+
+
+ac_config_files="$ac_config_files makefile:makefile.in build/makefile:src/makefile.in build/nauty.h:src/nauty-h.in build/naututil.h:src/naututil-h.in build/gtools.h:src/gtools-h.in build/nauty.pc:nauty-pc.in build/runalltests:test/runalltests.in"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -15769,6 +15781,7 @@ LIBOBJS=$ac_libobjs
 LTLIBOBJS=$ac_ltlibobjs
 
 
+as_dir=bin; as_fn_mkdir_p
 
 : "${CONFIG_STATUS=./config.status}"
 ac_write_fail=0
@@ -16622,11 +16635,12 @@ do
   case $ac_config_target in
     "libtool") CONFIG_COMMANDS="$CONFIG_COMMANDS libtool" ;;
     "makefile") CONFIG_FILES="$CONFIG_FILES makefile:makefile.in" ;;
-    "nauty.h") CONFIG_FILES="$CONFIG_FILES nauty.h:nauty-h.in" ;;
-    "naututil.h") CONFIG_FILES="$CONFIG_FILES naututil.h:naututil-h.in" ;;
-    "gtools.h") CONFIG_FILES="$CONFIG_FILES gtools.h:gtools-h.in" ;;
-    "nauty.pc") CONFIG_FILES="$CONFIG_FILES nauty.pc:nauty-pc.in" ;;
-    "runalltests") CONFIG_FILES="$CONFIG_FILES runalltests:runalltests.in" ;;
+    "build/makefile") CONFIG_FILES="$CONFIG_FILES build/makefile:src/makefile.in" ;;
+    "build/nauty.h") CONFIG_FILES="$CONFIG_FILES build/nauty.h:src/nauty-h.in" ;;
+    "build/naututil.h") CONFIG_FILES="$CONFIG_FILES build/naututil.h:src/naututil-h.in" ;;
+    "build/gtools.h") CONFIG_FILES="$CONFIG_FILES build/gtools.h:src/gtools-h.in" ;;
+    "build/nauty.pc") CONFIG_FILES="$CONFIG_FILES build/nauty.pc:nauty-pc.in" ;;
+    "build/runalltests") CONFIG_FILES="$CONFIG_FILES build/runalltests:test/runalltests.in" ;;
 
   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
   esac

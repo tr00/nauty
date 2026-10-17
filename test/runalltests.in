@@ -1,0 +1,170 @@
+#!/bin/sh
+# Run all nauty checks
+
+# @edit_msg@
+
+# Resolve binaries relative to this generated runner, not the caller's cwd.
+cd "$(dirname "$0")" || exit 1
+testdir='@abs_top_srcdir@/test'
+
+runonetest() {
+cmd="$1"
+in="${2:+$testdir/$2}"
+ok="$testdir/$3"
+printf "%s %s %s  " "$cmd" "$in" "$ok"
+ 
+if [ "X$in" = "X" ] ; then
+   in=/dev/null
+elif [ ! -r "$in" ] ; then
+   echo "File $in not found or not readable."
+   exit 1
+fi
+
+if [ ! -r "$ok" ] ; then
+   echo "File $ok not found or not readable."
+   exit 1
+fi
+
+out1=`mktemp runtest.XXXXXX`
+out2=`mktemp runtest.XXXXXX`
+
+eval $cmd <"$in" 2>$out2 >$out1
+LC_ALL=C sort $out2 >>$out1
+if ../bin/naucompare "$out1" "$ok" ; then
+   rm $out1 $out2
+else
+   echo "Output file is $out1"
+   rm $out2
+   fails=`expr $fails + 1`
+fi
+}
+
+# runonetestQ will run a test if 128-bit compilation is
+# enabled and will do nothing otherwise
+
+runonetestQ() { @runonetestQ@ ; }
+
+fails=0
+
+for naut in @nautests@
+do
+   if ! "$naut" ; then
+      echo "basic tests failed; run $naut"
+      exit 1
+   fi
+done
+
+runonetest ../bin/dreadtest nautest1.dre nautest1a.ans
+runonetest "../bin/dreadtest -o As" nautest1.dre nautest1b.ans
+runonetest "../bin/dreadtest -o At" nautest1.dre nautest1c.ans
+runonetest ../bin/dreadtestS nautest1.dre nautest1a.ans
+runonetest "../bin/dreadtestS -o As" nautest1.dre nautest1b.ans
+runonetest ../bin/dreadtestW nautest1.dre nautest1a.ans
+runonetest "../bin/dreadtestW -o As" nautest1.dre nautest1b.ans
+runonetest ../bin/dreadtestL nautest1.dre nautest1a.ans
+runonetest "../bin/dreadtestL -o As" nautest1.dre nautest1b.ans
+runonetest ../bin/dreadtestL1 nautest1.dre nautest1a.ans
+runonetest "../bin/dreadtestL1 -o As" nautest1.dre nautest1b.ans
+runonetest ../bin/dreadtest4K nautest1.dre nautest1a.ans
+runonetest "../bin/dreadtest4K -o As" nautest1.dre nautest1b.ans
+runonetest "../bin/dreadtest4K -o At" nautest1.dre nautest1c.ans
+runonetestQ ../bin/dreadtestQ nautest1.dre nautest1a.ans
+runonetestQ "../bin/dreadtestQ -o As" nautest1.dre nautest1b.ans
+runonetestQ "../bin/dreadtestQ -o At" nautest1.dre nautest1c.ans
+
+runonetest ../bin/dreadtest nautest2.dre nautest2a.ans
+runonetest "../bin/dreadtest -o As" nautest2.dre nautest2b.ans
+runonetest "../bin/dreadtest -o At" nautest2.dre nautest2c.ans
+runonetest ../bin/dreadtestS nautest2.dre nautest2a.ans
+runonetest "../bin/dreadtestS -o As" nautest2.dre nautest2b.ans
+runonetest ../bin/dreadtestW nautest2.dre nautest2a.ans
+runonetest "../bin/dreadtestW -o As" nautest2.dre nautest2b.ans
+runonetest "../bin/dreadtestW -o At" nautest2.dre nautest2c.ans
+runonetest ../bin/dreadtestL nautest2.dre nautest2a.ans
+runonetest "../bin/dreadtestL -o As" nautest2.dre nautest2b.ans
+runonetest "../bin/dreadtestL -o At" nautest2.dre nautest2c.ans
+runonetestQ ../bin/dreadtestQ nautest2.dre nautest2a.ans
+runonetestQ "../bin/dreadtestQ -o As" nautest2.dre nautest2b.ans
+runonetestQ "../bin/dreadtestQ -o At" nautest2.dre nautest2c.ans
+runonetest ../bin/dreadtest1 nautest2.dre nautest2a.ans
+runonetest "../bin/dreadtest1 -o As" nautest2.dre nautest2b.ans
+runonetest ../bin/dreadtestS1 nautest2.dre nautest2a.ans
+runonetest "../bin/dreadtestS1 -o As" nautest2.dre nautest2b.ans
+runonetest ../bin/dreadtestW1 nautest2.dre nautest2a.ans
+runonetest "../bin/dreadtestW1 -o As" nautest2.dre nautest2b.ans
+runonetest ../bin/dreadtestL1 nautest2.dre nautest2a.ans
+runonetest "../bin/dreadtestL1 -o As" nautest2.dre nautest2b.ans
+runonetest ../bin/dreadtest4K nautest2.dre nautest2a.ans
+runonetest "../bin/dreadtest4K -o As" nautest2.dre nautest2b.ans
+runonetestQ ../bin/dreadtestQ1 nautest2.dre nautest2a.ans
+runonetestQ "../bin/dreadtestQ1 -o As" nautest2.dre nautest2b.ans
+
+runonetest ../bin/dreadtest nautest3.dre nautest3a.ans
+runonetest "../bin/dreadtest -o As" nautest3.dre nautest3b.ans
+runonetest "../bin/dreadtest -o At" nautest3.dre nautest3c.ans
+runonetest ../bin/dreadtestS nautest3.dre nautest3a.ans
+runonetest "../bin/dreadtestS -o As" nautest3.dre nautest3b.ans
+runonetest ../bin/dreadtestW nautest3.dre nautest3a.ans
+runonetest "../bin/dreadtestW -o As" nautest3.dre nautest3b.ans
+runonetest "../bin/dreadtestW -o At" nautest3.dre nautest3c.ans
+runonetest ../bin/dreadtestL nautest3.dre nautest3a.ans
+runonetest "../bin/dreadtestL -o As" nautest3.dre nautest3b.ans
+runonetest "../bin/dreadtestL -o At" nautest3.dre nautest3c.ans
+runonetestQ ../bin/dreadtestQ nautest3.dre nautest3a.ans
+runonetestQ "../bin/dreadtestQ -o As" nautest3.dre nautest3b.ans
+runonetestQ "../bin/dreadtestQ -o At" nautest3.dre nautest3c.ans
+runonetest ../bin/dreadtest4K nautest3.dre nautest3a.ans
+runonetest "../bin/dreadtest4K -o As" nautest3.dre nautest3b.ans
+runonetestQ ../bin/dreadtestQ1 nautest3.dre nautest3a.ans
+runonetestQ "../bin/dreadtestQ1 -o As" nautest3.dre nautest3b.ans
+
+runonetest "../bin/geng -ud1D7t 11" "" nautesta.ans
+runonetest "../bin/geng -cd1f 10 | ../bin/labelg -q" "" nautestb1.ans
+runonetest "../bin/geng -cd1f 10 | ../bin/labelg -qS" "" nautestb2.ans
+runonetest "../bin/geng -cd1f 10 | ../bin/labelg -qt" "" nautestb3.ans
+runonetest "../bin/genrang -S4321 -r3 114 100 | ../bin/countg --nedDrP -q" "" nautestc.ans
+runonetest "../bin/gentourng -q -z 8 | ../bin/pickg -T3" "" nautestd.ans
+runonetest "../bin/gentreeg -q -s 18 | ../bin/countg -z6 --o" "" nauteste.ans
+runonetest "../bin/geng -c -qp 8 9 | ../bin/directg -q -o | ../bin/converseg -q | ../bin/labelg -q" "" nautestf.ans
+runonetest "../bin/genbg -q 4 3 10 | ../bin/vcolg -m5 -T" "" nautestg.ans
+runonetest "../bin/genposetg 8 o q" "" nautesth.ans
+runonetest "../bin/genspecialg -q -c12 -b11,4 -P5,2 -T3,4,5 -X30" "" nautesti.ans
+runonetest "../bin/genspecialg -qz -c12 -b11,4 -G30,-30 -T3,4,5" "" nautestj.ans
+runonetest "../bin/gentreeg -q 3:4 | ../bin/assembleg -n4:12L -cq" "" nautestk.ans
+runonetest "../bin/geng -q 10 12 | ../bin/countg --WTKcc,ee,hk" "" nautestl.ans
+runonetest "../bin/genquarticg -q 9 | ../bin/copyg -i" "" nautestm.ans
+runonetest "../bin/gengL -d2D2 33" "" nautestn.ans
+runonetest "../bin/geng -bq 9 | ../bin/biplabg -q | ../bin/NRswitchg -q" "" nautesto.ans
+runonetest "../bin/genspecialg -Q4 -q | ../bin/addedgeg -tq | ../bin/deledgeg -qv10" "" nautestp.ans
+runonetest "../bin/genktreeg -k3 -q 11 | ../bin/complg -q" "" nautestq.ans
+runonetest "../bin/geng -qd5 10 | ../bin/countg --dkk" "" nautestr.ans
+runonetest "../bin/geng -q -D4 9 | ../bin/ranlabg -q | ../bin/shortg -q" "" nautests.ans
+runonetest "../bin/geng -q -T 10 | ../bin/countg --N:HH" "" nautestt.ans
+runonetest "../bin/geng -q -TD6 10 | ../bin/countg --NN,A" "" nautestu.ans
+runonetest "../bin/geng -q -TD6 10 | ../bin/ransubg -qS765 -P9/10 | ../bin/countg --NN,A,G,GG" "" nautestv.ans
+runonetest "../bin/genrang -q -P3 -S1234 70 1000 | ../bin/countg --G,GG" "" nautestw.ans
+runonetest "../bin/genrang -q -P4 -z -S1234 70 500 | ../bin/countg --G,GG" "" nautestx.ans
+runonetest "../bin/geng -q -bT 12 | ../bin/ranlabg -qS7654 -m5 | ../bin/uniqg -uy" "" nautesty.ans
+runonetest "../bin/geng -qc -f 11 | ../bin/delptg -qk2 | ../bin/countg --nde" "" nautestz.ans
+runonetest "../bin/geng -Pd3D5q 9 | ../bin/nbrhoodg -q | ../bin/newedgeg -q" "" nautestaa.ans
+runonetest "../bin/genbg -qFz 5 5 | ../bin/ancestorg -q | ../bin/listg -A" "" nautestbb.ans
+runonetest "../bin/genbg -qY1 5 6 | ../bin/linegraphg -q | ../bin/countneg" "" nautestcc.ans
+runonetest "../bin/genbg -qA 6 6 | ../bin/addptg -qj1 | ../bin/countg --WW,HH,P" "" nautestdd.ans
+runonetest "../bin/genbg -qz 6 5 | ../bin/subdivideg -qk2 | ../bin/countg --dmDM" "" nautestee.ans
+runonetest "../bin/geng -Cq 8 12 | ../bin/watercluster2 S Z | ../bin/underlyingg -q | ../bin/countg --ee,cc,zZ" "" nautestff.ans
+runonetest "../bin/geng -qd3D4 8 | ../bin/multig -qTm2" "" nautestgg.ans
+runonetest "../bin/geng -qtfc 9 | ../bin/planarg -q | ../bin/pickg -qp1:2 | ../bin/productg -c" "" nautesthh.ans
+runonetest "../bin/genspecialg -q -X12 -X44 -X23 -X68 -X100 | ../bin/distgraphg -qd3 | ../bin/uniqg -uy" "" nautestii.ans
+# Make sure to use ../bin/ for all local binaries
+
+echo " "
+
+if [ $fails -eq 0 ] ; then
+   echo "PASSED ALL TESTS"
+   exit 0
+else
+   echo "$fails TESTS FAILED"
+   exit 1
+fi
+
+# @edit_msg@

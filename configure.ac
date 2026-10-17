@@ -1,6 +1,6 @@
 # Process this file with autoconf to produce a configure script.
 AC_INIT([nauty],[2.9.3],[brendan.mckay@anu.edu.au])
-AC_CONFIG_SRCDIR([nauty-h.in])
+AC_CONFIG_SRCDIR([src/nauty-h.in])
 
 # ======================================================================
 # First we define some functions
@@ -498,7 +498,7 @@ AC_SUBST(default_wordsize)
 
 AS_IF([test $have_pipe -eq 1 && test $have_wait -eq 1 && test $have_fork -eq 1],
     [shortg=1
-     shortg_or_null=shortg],
+     shortg_or_null=../bin/shortg],
     [shortg=0
      shortg_or_null=])
 AC_SUBST(shortg_or_null)
@@ -577,7 +577,21 @@ AS_IF([test "x$enable_static" = "xyes"],
 AC_SUBST([osuffix])
 AC_SUBST([olist])
 
-AC_CONFIG_FILES([makefile:makefile.in nauty.h:nauty-h.in
-    naututil.h:naututil-h.in gtools.h:gtools-h.in
-    nauty.pc:nauty-pc.in runalltests:runalltests.in])
+dnl Executables live beside the private build directory.
+layout_testprogs=
+for prog in $testprogs; do
+  layout_testprogs="$layout_testprogs ../bin/$prog"
+done
+testprogs=$layout_testprogs
+layout_nautests=
+for prog in $nautests; do
+  layout_nautests="$layout_nautests ../bin/$prog"
+done
+nautests=$layout_nautests
+
+AC_CONFIG_COMMANDS_PRE([AS_MKDIR_P([bin])])
+AC_CONFIG_FILES([makefile:makefile.in build/makefile:src/makefile.in
+    build/nauty.h:src/nauty-h.in build/naututil.h:src/naututil-h.in
+    build/gtools.h:src/gtools-h.in build/nauty.pc:nauty-pc.in
+    build/runalltests:test/runalltests.in])
 AC_OUTPUT

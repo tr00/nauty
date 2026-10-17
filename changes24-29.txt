@@ -928,3 +928,10 @@ Forked changes
 -------------
 
 * geng has a new switch -i to generate I5-free graphs.
+
+* Organize sources and header templates in src/, test programs and fixtures
+  in test/, executables in bin/, and generated headers, objects and libraries
+  in build/. Retain Autoconf/Libtool platform detection, word-size and TLS
+  variants, installation and out-of-tree builds. The top-level GNU makefile
+  dispatches multiple goals through one submake to preserve dependencies.
+  Remove obsolete makefile.basic; see README for updated build commands.
